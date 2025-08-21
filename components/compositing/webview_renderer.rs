@@ -101,6 +101,15 @@ pub(crate) struct WebViewRenderer {
     viewport_description: Option<ViewportDescription>,
 }
 
+impl Drop for WebViewRenderer {
+    fn drop(&mut self) {
+        self.global
+            .borrow_mut()
+            .pipeline_to_webview_map
+            .retain(|_, webview_id| self.id != *webview_id);
+    }
+}
+
 impl WebViewRenderer {
     pub(crate) fn new(
         global: Rc<RefCell<ServoRenderer>>,
@@ -145,9 +154,13 @@ impl WebViewRenderer {
         &mut self,
         pipeline_id: PipelineId,
     ) -> &mut PipelineDetails {
-        self.pipelines
-            .entry(pipeline_id)
-            .or_insert_with(PipelineDetails::new)
+        self.pipelines.entry(pipeline_id).or_insert_with(|| {
+            self.global
+                .borrow_mut()
+                .pipeline_to_webview_map
+                .insert(pipeline_id, self.id);
+            PipelineDetails::new()
+        })
     }
 
     pub(crate) fn pipeline_exited(&mut self, pipeline_id: PipelineId, source: PipelineExitSource) {
@@ -166,6 +179,10 @@ impl WebViewRenderer {
         }
 
         pipeline.remove_entry();
+        self.global
+            .borrow_mut()
+            .pipeline_to_webview_map
+            .remove(&pipeline_id);
     }
 
     pub(crate) fn set_frame_tree(&mut self, frame_tree: &SendableFrameTree) {

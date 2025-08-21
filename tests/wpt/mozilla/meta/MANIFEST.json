@@ -169,19 +169,6 @@
       ],
       {}
      ]
-    ],
-    "input-textual-text-align.html": [
-     "600a41cba133e9933132165e7cc4a2ea0ca28884",
-     [
-      "appearance/input-textual-text-align.html",
-      [
-       [
-        "/_mozilla/appearance/input-textual-text-align-ref.html",
-        "=="
-       ]
-      ],
-      {}
-     ]
     ]
    },
    "css": {
@@ -8167,10 +8154,6 @@
      "d30f13a2a1bab16989ec585a57ba7b7bd0b1c329",
      []
     ],
-    "input-textual-text-align-ref.html": [
-     "c2c99bc0751afd0aea3479a54df5f1d107fff38d",
-     []
-    ],
     "supports": {
      "input-textual-ref.css": [
       "7cdabb05d5dd7eb39df521fcb5ce24e39fea840f",
@@ -13742,7 +13725,7 @@
      ]
     ],
     "interfaces.https.html": [
-     "a9447edae08028bd992e3aa7c9e7a2a483baa446",
+     "40567f81c201fe775ad4735c231349fac8c33381",
      [
       null,
       {}

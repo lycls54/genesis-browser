@@ -1,4 +1,4 @@
-node: $Format:%H$
-node-date: $Format:%cI$
-describe-name: $Format:%(describe:tags=true,match=*[0-9]*)$
-ref-names: $Format:%D$
+node: a75f3fd09b8683397b25efa72ea21bd7ffeb7053
+node-date: 2025-08-20T19:10:07Z
+describe-name: selectors-v0.21.0-16800-ga75f3fd09b868
+ref-names: HEAD -> main

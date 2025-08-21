@@ -376,8 +376,6 @@ namespace_id! {ImageBitmapId, ImageBitmapIndex, "ImageBitmap"}
 
 namespace_id! {OffscreenCanvasId, OffscreenCanvasIndex, "OffscreenCanvas"}
 
-namespace_id! {CookieStoreId, CookieStoreIndex, "CookieStore"}
-
 // We provide ids just for unit testing.
 pub const TEST_NAMESPACE: PipelineNamespaceId = PipelineNamespaceId(1234);
 pub const TEST_PIPELINE_INDEX: Index<PipelineIndex> =

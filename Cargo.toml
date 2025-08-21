@@ -3,8 +3,12 @@ resolver = "2"
 members = [
     "ports/servoshell",
     "tests/unit/*",
+    "components/genesis-browser",
+    "components/genesis-browser/genesis-dns",
+    "components/genesis-browser/genesis-integration", 
+    "components/genesis-browser/genesis-ui",
 ]
-default-members = ["ports/servoshell"]
+default-members = ["ports/servoshell", "components/genesis-browser"]
 exclude = [".cargo", "support/crown"]
 
 [workspace.package]

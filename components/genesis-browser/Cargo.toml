@@ -1,0 +1,55 @@
+[package]
+name = "genesis-browser"
+version = "0.1.0"
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "Decentralized Web Browser using Genesis Blockchain - No ICANN, No Censorship"
+
+[[bin]]
+name = "genesis-browser"
+path = "main.rs"
+
+[dependencies]
+# Genesis packages (now in same workspace)
+genesis-dns = { path = "genesis-dns" }
+genesis-integration = { path = "genesis-integration" }
+genesis-ui = { path = "genesis-ui" }
+
+# Servo components (direct workspace access)
+libservo = { path = "../servo" }
+compositing = { path = "../compositing" }
+constellation = { path = "../constellation" }
+script = { path = "../script" }
+net = { path = "../net" }
+
+# Core dependencies
+url = "2.5"
+tokio = { version = "1.35", features = ["full"] }
+futures = "0.3"
+anyhow = "1.0"
+thiserror = "1.0"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+
+# CLI
+clap = { version = "4.4", features = ["derive"] }
+
+# Configuration
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+toml = "0.8"
+
+# HTTP client
+reqwest = { version = "0.11", features = ["json"] }
+
+[features]
+default = ["genesis-dns-resolver", "basic-ui", "servo-integration"]
+basic-ui = []
+genesis-dns-resolver = ["genesis-dns/default"]
+traditional-fallback = ["genesis-dns/traditional-fallback"]
+servo-integration = ["genesis-integration/servo-integration"]
+modern-ui = ["genesis-ui/modern-ui"]
+full-browser = ["servo-integration", "modern-ui", "traditional-fallback"]

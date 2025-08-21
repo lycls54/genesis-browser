@@ -102,7 +102,7 @@ impl CspReporting for Option<CspList> {
         let Some(csp_list) = self else {
             return false;
         };
-        let request = Request {
+        let mut request = Request {
             url: load_data.url.clone().into_url(),
             origin: match &load_data.load_origin {
                 LoadOrigin::Script(immutable_origin) => immutable_origin.clone().into_url_origin(),
@@ -118,7 +118,7 @@ impl CspReporting for Option<CspList> {
         };
         // TODO: set correct navigation check type for form submission if applicable
         let (result, violations) =
-            csp_list.should_navigation_request_be_blocked(&request, NavigationCheckType::Other);
+            csp_list.should_navigation_request_be_blocked(&mut request, NavigationCheckType::Other);
 
         global.report_csp_violations(violations, element, None);
 

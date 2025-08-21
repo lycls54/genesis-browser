@@ -18,7 +18,6 @@ use embedder_traits::ViewportDetails;
 use euclid::SideOffsets2D;
 use euclid::default::{Point2D, Rect, Size2D};
 use log::warn;
-use malloc_size_of_derive::MallocSizeOf;
 use servo_config::opts::DebugOptions;
 use style::Zero;
 use style::color::AbsoluteColor;
@@ -93,7 +92,7 @@ impl ContainingBlock {
 
 pub(crate) type ContainingBlockInfo<'a> = ContainingBlockManager<'a, ContainingBlock>;
 
-#[derive(Clone, Copy, Debug, Eq, Ord, MallocSizeOf, PartialEq, PartialOrd)]
+#[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub(crate) enum StackingContextSection {
     OwnBackgroundsAndBorders,
     DescendantBackgroundsAndBorders,
@@ -101,7 +100,6 @@ pub(crate) enum StackingContextSection {
     Outline,
 }
 
-#[derive(MallocSizeOf)]
 pub(crate) struct ScrollFrameHitTestItem {
     /// The [`ScrollTreeNodeId`] of the spatial node that contains this hit test item.
     pub scroll_node_id: ScrollTreeNodeId,
@@ -118,7 +116,6 @@ pub(crate) struct ScrollFrameHitTestItem {
     pub external_scroll_id: ExternalScrollId,
 }
 
-#[derive(MallocSizeOf)]
 pub(crate) struct StackingContextTree {
     /// The root stacking context of this [`StackingContextTree`].
     pub root_stacking_context: StackingContext,
@@ -285,7 +282,7 @@ impl StackingContextTree {
 }
 
 /// The text decorations for a Fragment, collecting during [`StackingContextTree`] construction.
-#[derive(Clone, Debug, MallocSizeOf)]
+#[derive(Clone, Debug)]
 pub(crate) struct FragmentTextDecoration {
     pub line: TextDecorationLine,
     pub color: AbsoluteColor,
@@ -296,7 +293,6 @@ pub(crate) struct FragmentTextDecoration {
 ///
 /// This is generally part of a fragment, like its borders or foreground, but it
 /// can also be a stacking container that needs to be painted in fragment order.
-#[derive(MallocSizeOf)]
 pub(crate) enum StackingContextContent {
     /// A fragment that does not generate a stacking context or stacking container.
     Fragment {
@@ -307,7 +303,6 @@ pub(crate) enum StackingContextContent {
         containing_block: PhysicalRect<Au>,
         fragment: Fragment,
         is_collapsed_table_borders: bool,
-        #[conditional_malloc_size_of]
         text_decorations: Arc<Vec<FragmentTextDecoration>>,
     },
 
@@ -359,7 +354,7 @@ impl StackingContextContent {
     }
 }
 
-#[derive(Clone, Copy, Debug, Eq, MallocSizeOf, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub(crate) enum StackingContextType {
     RealStackingContext,
     PositionedStackingContainer,
@@ -372,7 +367,6 @@ pub(crate) enum StackingContextType {
 ///
 /// We use the term “real stacking context” in situations that call for a
 /// stacking context but not a stacking container.
-#[derive(MallocSizeOf)]
 pub struct StackingContext {
     /// The spatial id of this fragment. This is used to properly handle
     /// things like preserve-3d.
@@ -422,14 +416,14 @@ pub struct StackingContext {
 }
 
 /// Refers to one of the child contents or stacking contexts of a [StackingContext].
-#[derive(Clone, Copy, MallocSizeOf)]
+#[derive(Clone, Copy)]
 pub struct DebugPrintItem {
     field: DebugPrintField,
     index: usize,
 }
 
 /// Refers to one of the vecs of a [StackingContext].
-#[derive(Clone, Copy, MallocSizeOf)]
+#[derive(Clone, Copy)]
 pub enum DebugPrintField {
     Contents,
     RealStackingContextsAndPositionedStackingContainers,

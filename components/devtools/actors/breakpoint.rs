@@ -42,10 +42,6 @@ impl Actor for BreakpointListActor {
                 let msg = EmptyReplyMsg { from: self.name() };
                 request.reply_final(&msg)?
             },
-            "removeBreakpoint" => {
-                let msg = EmptyReplyMsg { from: self.name() };
-                request.reply_final(&msg)?
-            },
             _ => return Err(ActorError::UnrecognizedPacketType),
         };
         Ok(())

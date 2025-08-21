@@ -24,40 +24,38 @@ input::-servo-text-control-inner-editor {
   pointer-events: auto;
 }
 
-/* FIXME(#36982): Use `display: block; align-content: center` instead of flex. */
 input::-servo-text-control-inner-container {
-  display: flex;
-  height: stretch;
-  pointer-events: none;
   position: relative;
+  height: 100%;
+  pointer-events: none;
+  display: flex;
 }
 
 input:not(:placeholder-shown)::placeholder {
-  visibility: hidden !important;
+  visibility: hidden !important
 }
 
 input::-servo-text-control-inner-editor, input::placeholder {
-  block-size: fit-content !important;
-  min-width: stretch;
   white-space: pre;
+  margin-block: auto !important;
+  inset-block: 0 !important;
+  block-size: fit-content !important;
 }
 
 input::placeholder {
-  color: grey;
-  inset-block: 0 !important;
-  margin-block: auto !important;
-  overflow: hidden;
-  pointer-events: none !important;
+  overflow: hidden !important;
   position: absolute !important;
+  color: grey !important;
+  pointer-events: none !important;
 }
 
 input::color-swatch {
+  width: 100%;
+  height: 100%;
+  display: inline-block;
   box-sizing: border-box;
   border: 1px solid gray;
   border-radius: 2px;
-  display: inline-block;
-  height: 100%;
-  width: 100%;
 }
 
 input::selection,

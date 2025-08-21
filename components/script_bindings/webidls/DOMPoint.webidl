@@ -11,8 +11,7 @@
 
 // http://dev.w3.org/fxtf/geometry/Overview.html#dompoint
 [Exposed=(Window,Worker,PaintWorklet),
- Serializable,
- LegacyWindowAlias=SVGPoint]
+ Serializable]
 interface DOMPoint : DOMPointReadOnly {
     [Throws] constructor(optional unrestricted double x = 0, optional unrestricted double y = 0,
                 optional unrestricted double z = 0, optional unrestricted double w = 1);

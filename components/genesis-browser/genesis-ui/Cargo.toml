@@ -1,0 +1,55 @@
+[package]
+name = "genesis-ui"
+version = "0.1.0"
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "User interface for Genesis Browser - Modern web browser UI components"
+
+[dependencies]
+# Genesis DNS integration
+genesis-dns = { path = "../genesis-dns" }
+
+# UI framework
+minifb = "0.25"  # Simple framebuffer for basic UI
+egui = { version = "0.24", optional = true }
+eframe = { version = "0.24", optional = true }
+
+# Window management
+winit = { version = "0.29", optional = true }
+glutin = { version = "0.31", optional = true }
+raw-window-handle = { version = "0.6", optional = true }
+
+# Graphics and rendering
+image = "0.24"
+
+# Web content handling
+html-escape = "0.2"
+
+# Core dependencies
+url = "2.5"
+tokio = { version = "1.35", features = ["full"] }
+futures = "0.3"
+anyhow = "1.0"
+thiserror = "1.0"
+tracing = "0.1"
+
+# Configuration and serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+toml = "0.8"
+
+# CLI for browser controls
+clap = { version = "4.4", features = ["derive"] }
+
+# Platform specific UI
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3", features = [
+    "winuser", "wingdi", "libloaderapi", "combaseapi"
+] }
+
+[features]
+default = ["basic-ui"]
+basic-ui = []
+modern-ui = ["egui", "eframe", "winit", "glutin", "raw-window-handle"]
+servo-integration = ["modern-ui"]
