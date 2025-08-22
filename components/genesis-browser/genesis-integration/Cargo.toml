@@ -26,12 +26,18 @@ base = { path = "../../shared/base" }
 servo_url = { path = "../../url" }
 
 # Window management (required for full Servo integration)
-winit = "0.29"
-glutin = "0.31"  
+winit = "0.30"
+glutin = "0.32"  
 surfman = "0.9"
 euclid = "0.22"
 gleam = "0.15"
 raw-window-handle = "0.6"
+
+# GUI dependencies
+egui = "0.32"
+egui_glow = "0.32"
+egui-winit = "0.32"
+glow = "0.16"
 
 # Core dependencies
 url = "2.5"

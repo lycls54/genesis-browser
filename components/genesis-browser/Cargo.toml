@@ -45,6 +45,9 @@ toml = "0.8"
 # HTTP client
 reqwest = { version = "0.11", features = ["json"] }
 
+# GUI dependencies
+winit = "0.30"
+
 [features]
 default = ["genesis-dns-resolver", "basic-ui", "servo-integration"]
 basic-ui = []

@@ -165,25 +165,13 @@ async fn start_browser(
         };
         
         // Initialize Servo-based browser engine
-        let mut browser_engine = genesis_integration::GenesisBrowserEngine::new(config).await?;
-        
-        // Start the browser
-        browser_engine.start().await?;
-        
-        // Navigate to startup URL if provided
-        if let Some(url) = startup_url {
-            info!("🔍 Opening startup URL: {}", url);
-            browser_engine.navigate(&url).await?;
-        } else {
-            // Navigate to welcome page
-            browser_engine.navigate("http://welcome.genesis").await?;
-        }
+        let browser_engine = genesis_integration::GenesisBrowserEngine::new(config).await?;
         
         info!("🌐 Genesis Browser with Servo Engine running...");
         info!("Supported domains: .genesis, .free, .web, .defi, .dao");
         
-        // Run the browser event loop
-        browser_engine.run().await?;
+        // Run the browser GUI
+        run_genesis_browser_gui(browser_engine, startup_url).await?;
     }
     
     // Fallback to simple UI if Servo is not available
@@ -256,6 +244,114 @@ async fn show_info(genesis_node: &str) -> Result<(), Box<dyn std::error::Error>>
         },
         Err(_) => {
             info!("❌ Genesis node is offline");
+        }
+    }
+    
+    Ok(())
+}
+
+/// Run Genesis Browser with GUI
+async fn run_genesis_browser_gui(
+    mut browser_engine: genesis_integration::GenesisBrowserEngine,
+    startup_url: Option<String>
+) -> Result<(), Box<dyn std::error::Error>> {
+    use winit::event_loop::{EventLoop, ControlFlow};
+    use winit::event::{Event, WindowEvent};
+    
+    info!("🎨 Starting Genesis Browser GUI Event Loop");
+    
+    // Try to create event loop for GUI
+    match EventLoop::new() {
+        Ok(event_loop) => {
+            info!("✅ GUI mode available - starting with window");
+            
+            let mut browser_gui = genesis_integration::GenesisBrowserGUI::new();
+            
+            // Initialize GUI with browser engine
+            browser_gui.initialize(browser_engine).await?;
+    
+    // Run event loop
+    event_loop.run(move |event, event_loop_window_target| {
+        match event {
+            Event::Resumed => {
+                // Create window when event loop starts
+                if browser_gui.window().is_none() {
+                    if let Err(e) = browser_gui.create_window(event_loop_window_target) {
+                        error!("Failed to create window: {}", e);
+                        event_loop_window_target.exit();
+                        return;
+                    }
+                    info!("✅ Genesis Browser window created and ready");
+                    
+                    // Navigate to startup URL if provided
+                    if let Some(ref url) = startup_url {
+                        info!("🔍 Opening startup URL: {}", url);
+                    }
+                }
+            },
+            
+            Event::WindowEvent { window_id, event } => {
+                if let Some(window) = browser_gui.window() {
+                    if window.id() == window_id {
+                        match event {
+                            WindowEvent::CloseRequested => {
+                                info!("🛑 Genesis Browser closing");
+                                event_loop_window_target.exit();
+                            },
+                            
+                            WindowEvent::RedrawRequested => {
+                                if let Err(e) = browser_gui.update_and_render() {
+                                    error!("Failed to render: {}", e);
+                                }
+                            },
+                            
+                            _ => {
+                                browser_gui.handle_event(&event);
+                            }
+                        }
+                    }
+                }
+            },
+            
+            Event::AboutToWait => {
+                // Request redraw
+                if let Some(window) = browser_gui.window() {
+                    window.request_redraw();
+                }
+            },
+            
+            _ => {}
+        }
+            })?;
+        },
+        
+        Err(e) => {
+            info!("⚠️ GUI not available: {}", e);
+            info!("🖥️ Falling back to headless mode");
+            
+            // Start browser engine in headless mode
+            browser_engine.start().await?;
+            
+            // Navigate to startup URL if provided
+            if let Some(url) = startup_url {
+                info!("🔍 Opening startup URL in headless mode: {}", url);
+                browser_engine.navigate(&url).await?;
+            } else {
+                info!("🔍 Opening welcome page in headless mode");
+                browser_engine.navigate("http://welcome.genesis").await?;
+            }
+            
+            info!("🚀 Genesis Browser running in headless mode");
+            info!("📊 Testing Genesis DNS resolution...");
+            
+            // Run browser in headless mode for demonstration
+            for i in 1..=5 {
+                info!("🔄 Headless browser loop iteration {}/5", i);
+                browser_engine.run().await?;
+                tokio::time::sleep(std::time::Duration::from_secs(2)).await;
+            }
+            
+            info!("✅ Genesis Browser headless demo completed!");
         }
     }
     

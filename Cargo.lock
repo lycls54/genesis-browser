@@ -2620,7 +2620,7 @@ dependencies = [
  "raw-window-handle 0.5.2",
  "smithay-clipboard 0.6.6",
  "web-time 0.2.4",
- "webbrowser",
+ "webbrowser 0.8.15",
  "winit 0.28.7",
 ]
 
@@ -2640,6 +2640,7 @@ dependencies = [
  "raw-window-handle 0.6.2",
  "smithay-clipboard 0.7.2",
  "web-time 1.1.0",
+ "webbrowser 1.0.5",
  "winit 0.30.12",
 ]
 
@@ -3496,6 +3497,7 @@ dependencies = [
  "tracing",
  "tracing-subscriber",
  "url",
+ "winit 0.30.12",
 ]
 
 [[package]]
@@ -3524,11 +3526,15 @@ dependencies = [
  "compositing_traits",
  "constellation",
  "constellation_traits",
+ "egui 0.32.1",
+ "egui-winit 0.32.1",
+ "egui_glow 0.32.1",
  "euclid",
  "futures 0.3.31",
  "genesis-dns",
  "gleam",
- "glutin 0.31.3",
+ "glow 0.16.0",
+ "glutin 0.32.3",
  "layout",
  "layout_api",
  "libservo",
@@ -3545,7 +3551,7 @@ dependencies = [
  "tokio",
  "tracing",
  "url",
- "winit 0.29.15",
+ "winit 0.30.12",
 ]
 
 [[package]]
@@ -3840,6 +3846,31 @@ dependencies = [
 ]
 
 [[package]]
+name = "glutin"
+version = "0.32.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "12124de845cacfebedff80e877bb37b5b75c34c5a4c89e47e1cdd67fb6041325"
+dependencies = [
+ "bitflags 2.9.2",
+ "cfg_aliases 0.2.1",
+ "cgl",
+ "dispatch2",
+ "glutin_egl_sys 0.7.1",
+ "glutin_glx_sys 0.6.1",
+ "glutin_wgl_sys 0.6.1",
+ "libloading 0.8.8",
+ "objc2 0.6.1",
+ "objc2-app-kit 0.3.1",
+ "objc2-core-foundation",
+ "objc2-foundation 0.3.1",
+ "once_cell",
+ "raw-window-handle 0.6.2",
+ "wayland-sys 0.31.7",
+ "windows-sys 0.52.0",
+ "x11-dl",
+]
+
+[[package]]
 name = "glutin-winit"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3872,6 +3903,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "glutin_egl_sys"
+version = "0.7.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4c4680ba6195f424febdc3ba46e7a42a0e58743f2edb115297b86d7f8ecc02d2"
+dependencies = [
+ "gl_generator",
+ "windows-sys 0.52.0",
+]
+
+[[package]]
 name = "glutin_glx_sys"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3886,6 +3927,16 @@ name = "glutin_glx_sys"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a165fd686c10dcc2d45380b35796e577eacfd43d4660ee741ec8ebe2201b3b4f"
+dependencies = [
+ "gl_generator",
+ "x11-dl",
+]
+
+[[package]]
+name = "glutin_glx_sys"
+version = "0.6.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8a7bb2938045a88b612499fbcba375a77198e01306f52272e692f8c1f3751185"
 dependencies = [
  "gl_generator",
  "x11-dl",
@@ -6858,6 +6909,7 @@ checksum = "e6f29f568bec459b0ddff777cec4fe3fd8666d82d5a40ebd0ff7e66134f89bcc"
 dependencies = [
  "bitflags 2.9.2",
  "objc2 0.6.1",
+ "objc2-core-foundation",
  "objc2-foundation 0.3.1",
 ]
 
@@ -11348,6 +11400,22 @@ dependencies = [
  "ndk-context",
  "objc",
  "raw-window-handle 0.5.2",
+ "url",
+ "web-sys",
+]
+
+[[package]]
+name = "webbrowser"
+version = "1.0.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "aaf4f3c0ba838e82b4e5ccc4157003fb8c324ee24c058470ffb82820becbde98"
+dependencies = [
+ "core-foundation 0.10.1",
+ "jni",
+ "log",
+ "ndk-context",
+ "objc2 0.6.1",
+ "objc2-foundation 0.3.1",
  "url",
  "web-sys",
 ]
