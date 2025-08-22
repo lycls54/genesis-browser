@@ -3,6 +3,17 @@
 # Genesis Browser Build Script - Enhanced Version
 set -euo pipefail
 
+# Request sudo access upfront for apt operations
+print_status() {
+    echo -e "\033[0;34m[INFO]\033[0m $1"
+}
+
+print_status "Genesis Browser Build - Requesting sudo access for system dependencies..."
+sudo -v
+
+# Keep sudo alive during the script
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -252,7 +263,7 @@ esac
 # Verify build artifacts
 print_header "✅ Verifying Build Artifacts"
 
-BINARIES=("genesis-browser" "servoshell")
+BINARIES=("genesis-browser" "servo")
 BUILT_BINARIES=()
 MISSING_BINARIES=()
 
@@ -330,10 +341,10 @@ if [[ " ${BUILT_BINARIES[@]} " =~ " genesis-browser " ]]; then
     echo "    ./genesis-browser info"
 fi
 
-if [[ " ${BUILT_BINARIES[@]} " =~ " servoshell " ]]; then
+if [[ " ${BUILT_BINARIES[@]} " =~ " servo " ]]; then
     echo ""
     echo "To run Servo Shell:"
-    echo "    ./$TARGET_DIR/servoshell [URL]"
+    echo "    ./$TARGET_DIR/servo [URL]"
 fi
 
 print_success "Build process completed! 🎉"

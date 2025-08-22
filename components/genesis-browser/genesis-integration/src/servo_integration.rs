@@ -109,6 +109,12 @@ impl GenesisBrowserEngine {
     pub async fn start(&mut self) -> Result<()> {
         info!("🌟 Starting Genesis Browser Engine with Servo");
 
+        // Ensure namespace is set for this thread
+        use base::id::{PipelineNamespace, PipelineNamespaceId};
+        let namespace_id = PipelineNamespaceId(1);
+        PipelineNamespace::install(namespace_id);
+        info!("🔧 Servo namespace installed for browser engine");
+
         // Start Servo engine
         {
             let mut engine = self.servo_engine.lock().unwrap();
