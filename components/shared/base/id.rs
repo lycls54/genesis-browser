@@ -401,3 +401,15 @@ pub struct ScrollTreeNodeId {
     /// The index of this scroll tree node in the tree's array of nodes.
     pub index: usize,
 }
+
+/// An id for a CookieStore instance, used for managing cookie storage and events.
+#[derive(Clone, Copy, Debug, Deserialize, Eq, Hash, PartialEq, Serialize, MallocSizeOf)]
+pub struct CookieStoreId(pub u64);
+
+impl CookieStoreId {
+    pub fn new() -> CookieStoreId {
+        use std::sync::atomic::{AtomicU64, Ordering};
+        static NEXT_ID: AtomicU64 = AtomicU64::new(1);
+        CookieStoreId(NEXT_ID.fetch_add(1, Ordering::Relaxed))
+    }
+}

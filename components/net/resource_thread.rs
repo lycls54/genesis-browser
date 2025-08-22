@@ -464,6 +464,37 @@ impl ResourceChannelManager {
                 http_state.http_cache.write().unwrap().clear();
             },
             CoreResourceMsg::ToFileManager(msg) => self.resource_manager.filemanager.handle(msg),
+            CoreResourceMsg::NewCookieListener(_store_id, _sender, _url) => {
+                // TODO: Implement cookie listener registration
+                // For now, just store the listener mapping
+            },
+            CoreResourceMsg::RemoveCookieListener(_store_id) => {
+                // TODO: Implement cookie listener removal
+                // For now, just acknowledge the removal
+            },
+            CoreResourceMsg::GetCookieDataForUrlAsync(_store_id, _url, _name) => {
+                // TODO: Implement async cookie retrieval
+                // This should get cookies and send them back via the registered listener
+            },
+            CoreResourceMsg::GetAllCookieDataForUrlAsync(_store_id, _url, _name) => {
+                // TODO: Implement async cookie retrieval for all matching cookies
+                // This should get all cookies and send them back via the registered listener
+            },
+            CoreResourceMsg::SetCookieForUrlAsync(_store_id, url, cookie, source) => {
+                // TODO: Implement async cookie setting
+                // This should set the cookie and send a confirmation back via the registered listener
+                self.resource_manager
+                    .set_cookie_for_url(&url, cookie.into_inner().to_owned(), source, http_state);
+            },
+            CoreResourceMsg::DeleteCookieAsync(_store_id, url, name) => {
+                // TODO: Implement async cookie deletion
+                // This should delete the cookie and send a confirmation back via the registered listener
+                http_state
+                    .cookie_jar
+                    .write()
+                    .unwrap()
+                    .delete_cookie_with_name(&url, name);
+            },
             CoreResourceMsg::Exit(sender) => {
                 if let Some(ref config_dir) = self.config_dir {
                     match http_state.auth_cache.read() {

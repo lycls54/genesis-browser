@@ -1894,6 +1894,15 @@ impl WindowMethods<crate::DomTypeHolder> for Window {
         self.trusted_types
             .or_init(|| TrustedTypePolicyFactory::new(self.as_global_scope(), can_gc))
     }
+
+    fn CookieStore(&self) -> DomRoot<crate::dom::cookiestore::CookieStore> {
+        use crate::dom::cookiestore::CookieStore;
+        use script_bindings::script_runtime::CanGc;
+        
+        // Create a new CookieStore instance if it doesn't exist
+        // TODO: This should be cached on the window to avoid creating multiple instances
+        CookieStore::new(self.as_global_scope(), CanGc::note())
+    }
 }
 
 impl Window {

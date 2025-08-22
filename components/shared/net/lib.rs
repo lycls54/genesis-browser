@@ -536,6 +536,13 @@ pub enum CoreResourceMsg {
     ),
     DeleteCookies(ServoUrl),
     DeleteCookie(ServoUrl, String),
+    /// Async cookie operations for CookieStore API
+    NewCookieListener(base::id::CookieStoreId, IpcSender<CookieAsyncResponse>, ServoUrl),
+    RemoveCookieListener(base::id::CookieStoreId),
+    GetCookieDataForUrlAsync(base::id::CookieStoreId, ServoUrl, Option<String>),
+    GetAllCookieDataForUrlAsync(base::id::CookieStoreId, ServoUrl, Option<String>),
+    SetCookieForUrlAsync(base::id::CookieStoreId, ServoUrl, Serde<Cookie<'static>>, CookieSource),
+    DeleteCookieAsync(base::id::CookieStoreId, ServoUrl, String),
     /// Get a history state by a given history state id
     GetHistoryState(HistoryStateId, IpcSender<Option<Vec<u8>>>),
     /// Set a history state for a given history state id
@@ -974,6 +981,22 @@ pub enum CookieSource {
     HTTP,
     /// A non-HTTP API
     NonHTTP,
+}
+
+/// Response type for asynchronous cookie operations
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct CookieAsyncResponse {
+    pub data: CookieData,
+}
+
+/// Data structure for cookie operations
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub enum CookieData {
+    Get(Option<Serde<Cookie<'static>>>),
+    GetAll(Vec<Serde<Cookie<'static>>>),
+    Set(bool),
+    Delete(bool),
+    Change(bool),
 }
 
 /// Network errors that have to be exported out of the loaders
