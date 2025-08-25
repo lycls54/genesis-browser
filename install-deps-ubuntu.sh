@@ -69,9 +69,8 @@ sudo apt install -y \
     pkg-config \
     cmake \
     git \
-    clang \
-    llvm \
-    lld \
+    gcc \
+    g++ \
     m4 \
     autoconf \
     automake \
@@ -265,7 +264,7 @@ fi
 print_status "Verifying installations..."
 
 # Check essential tools
-commands_to_check=("gcc" "g++" "clang" "make" "pkg-config" "cmake" "python3" "pip3")
+commands_to_check=("gcc" "g++" "make" "pkg-config" "cmake" "python3" "pip3")
 MISSING_DEPS=0
 for cmd in "${commands_to_check[@]}"; do
     if command -v $cmd &> /dev/null; then
@@ -332,10 +331,9 @@ fi
 # Ensure rustup Rust takes precedence over system Rust
 export PATH="$HOME/.cargo/bin:$PATH"
 
-# Set build optimizations
-export RUSTFLAGS="-C link-arg=-fuse-ld=lld"
-export CC="clang"
-export CXX="clang++"
+# Set build optimizations (use GCC as default compiler)
+export CC="gcc"
+export CXX="g++"
 
 # Verify correct Rust is being used
 RUST_VERSION=$(rustc --version 2>/dev/null | cut -d' ' -f2)

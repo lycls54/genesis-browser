@@ -4,7 +4,8 @@
       "Bash(cargo build:*)",
       "Bash(mkdir:*)",
       "Bash(cp:*)",
-      "Bash(cargo check:*)"
+      "Bash(cargo check:*)",
+      "Read(//home/lycls54/Pictures/Screenshots/**)"
     ],
     "deny": [],
     "ask": []

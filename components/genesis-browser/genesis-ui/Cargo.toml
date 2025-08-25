@@ -10,10 +10,13 @@ description = "User interface for Genesis Browser - Modern web browser UI compon
 # Genesis DNS integration
 genesis-dns = { path = "../genesis-dns" }
 
-# UI framework
-minifb = "0.25"  # Simple framebuffer for basic UI
+# UI framework - Modern egui only
 egui = { version = "0.24", optional = true }
 eframe = { version = "0.24", optional = true }
+
+# Additional UI dependencies for enhanced features
+uuid = { version = "1.18", features = ["v4"] }
+chrono = { version = "0.4", features = ["serde"] }
 
 # Window management
 winit = { version = "0.29", optional = true }
@@ -25,6 +28,7 @@ image = "0.24"
 
 # Web content handling
 html-escape = "0.2"
+urlencoding = "2.1"
 
 # Core dependencies
 url = "2.5"
@@ -49,7 +53,6 @@ winapi = { version = "0.3", features = [
 ] }
 
 [features]
-default = ["basic-ui"]
-basic-ui = []
+default = ["modern-ui"]
 modern-ui = ["egui", "eframe", "winit", "glutin", "raw-window-handle"]
 servo-integration = ["modern-ui"]

@@ -49,8 +49,7 @@ reqwest = { version = "0.11", features = ["json"] }
 winit = "0.30"
 
 [features]
-default = ["genesis-dns-resolver", "basic-ui", "servo-integration"]
-basic-ui = []
+default = ["genesis-dns-resolver", "modern-ui", "servo-integration"]
 genesis-dns-resolver = ["genesis-dns/default"]
 traditional-fallback = ["genesis-dns/traditional-fallback"]
 servo-integration = ["genesis-integration/servo-integration"]

@@ -196,7 +196,7 @@ if [ -f "./mach" ]; then
     print_status "Attempting mach bootstrap with crown linter workaround..."
     
     # Try to run mach bootstrap but continue if it fails
-    if timeout 30s ./mach bootstrap --no-interactive 2>/dev/null; then
+    if echo "y" | timeout 30s ./mach bootstrap --no-interactive >/dev/null 2>&1; then
         print_success "Mach bootstrap completed successfully"
     else
         print_warning "Mach bootstrap failed or timed out (crown linter issue)"
@@ -205,10 +205,10 @@ if [ -f "./mach" ]; then
         # Ensure Python dependencies are installed manually
         if command -v uv &> /dev/null; then
             print_status "Installing Python dependencies with UV..."
-            uv pip install --system -r python/requirements.txt 2>/dev/null || true
+            echo "y" | uv pip install --system -r python/requirements.txt >/dev/null 2>&1 || true
         elif command -v pip3 &> /dev/null; then
             print_status "Installing Python dependencies with pip..."
-            pip3 install -r python/requirements.txt 2>/dev/null || true
+            echo "y" | pip3 install -r python/requirements.txt >/dev/null 2>&1 || true
         fi
     fi
 else

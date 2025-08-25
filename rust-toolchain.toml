@@ -6,12 +6,10 @@ channel = "1.89.0"
 
 components = [
     "clippy",
-    # For support/crown
+    # For support/crown linter
     "llvm-tools",
-    # For support/crown
     "rustc-dev",
     "rustfmt",
-    "rustc-dev",
     # For rust-analyzer
     "rust-src",
 ]
